@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMPLIFIED - Digital Experiences</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+        }
+        
+        header {
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+ 
+
+    .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding-right: 0.5rem;
+        z-index: 101;
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 25px;
+       height: 2px;
+       background-color: #ffffff;
+       margin: 5px 0;
+       transition: 0.3s;
+    }
+       
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 600;
+            position: relative;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: #00ffff;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .hero h1 {
+            font-size:  clamp(2.5rem, 8vw, 6rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            line-height: 1;
+            letter-spacing: -2px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin-bottom: 2rem;
+            color: #ccc;
+            line-height: 1.5;
+        }
+        
+        .btn {
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            color: #000;
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.7);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s ease;
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .section {
+            /* min-height: 100vh; */
+            padding:3rem 2rem;
+            position: relative;
+            /* overflow: hidden; */
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 6vw, 4rem);
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+             position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+        }
+        
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .service-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .service-card:hover::before {
+            opacity: 1;
+        }
+        
+        .service-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #00ffff;
+        }
+        
+        .service-card p {
+            color: #ccc;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .portfolio {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+           aspect-ratio: 16/9;
+            cursor: pointer;
+        }
+        
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+        
+        .portfolio-overlay h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #00ffff;
+        }
+        
+        .portfolio-overlay p {
+            color: #fff;
+        }
+        
+        /* Team Section Styles */
+        .team-carousel-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .team-carousel {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .team-member {
+            min-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: rem;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease;
+        }
+        
+        .team-member.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .member-image {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin-bottom: 2rem;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(110%) brightness(110%);
+        }
+        
+
+
+@keyframes pulse {
+    from { box-shadow: 0 0 20px var(--glow); }
+    to { box-shadow: 0 0 40px var(--glow-strong); }
+}
+
+        /* Tech Capabilities Styling */
+        .tech-capabilities {
+           
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto 1rem;
+        }
+       
+        .capability-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .capability-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 255, 255, 0.05), rgba(255, 0, 255, 0.05));
+            z-index: -1;
+        }
+        
+        .capability-area {
+            flex: 1;
+        }
+        
+        .capability-bar-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        
+        .capability-label {
+            width: 100px;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+        
+        .capability-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .capability-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            border-radius: 4px;
+            position: relative;
+            animation: fill-animation 1.5s ease-out forwards;
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+        
+        @keyframes fill-animation {
+            from {
+                transform: scaleX(0);
+            }
+            to {
+                transform: scaleX(1);
+            }
+        }
+        
+        .capability-visual {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .tech-icon {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            animation: icon-pulse 4s infinite alternate;
+        }
+        
+        @keyframes icon-pulse {
+            0% {
+                filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.5));
+                transform: scale(0.95);
+            }
+            100% {
+                filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.7));
+                transform: scale(1.05);
+            }
+        }
+        
+        .tech-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .tech-icon.designer {
+            animation: designer-animation 10s infinite linear;
+        }
+        
+        @keyframes designer-animation {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.7));
+            }
+            25% {
+                filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.7));
+            }
+            50% {
+                filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.7));
+            }
+            75% {
+                filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.7));
+            }
+            100% {
+                filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.7));
+            }
+        }
+        
+        .tech-icon.frontend {
+            animation: frontend-animation 3s infinite alternate;
+        }
+        
+        @keyframes frontend-animation {
+            0% {
+                transform: perspective(500px) rotateY(0deg);
+            }
+            100% {
+                transform: perspective(500px) rotateY(15deg);
+            }
+        }
+        
+        .tech-icon.backend {
+            animation: backend-animation 5s infinite linear;
+        }
+        
+        @keyframes backend-animation {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .tech-icon.fullstack {
+            animation: fullstack-animation 20s infinite linear;
+        }
+        
+        @keyframes fullstack-animation {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .tech-icon.coder {
+            animation: coder-animation 3s infinite alternate;
+        }
+        
+        @keyframes coder-animation {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.7));
+            }
+            100% {
+                filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.9));
+            }
+        }
+        
+        .member-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0), rgba(0, 255, 255, 0.2));
+            animation: pulse 4s infinite alternate;
+            mix-blend-mode: overlay;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 40px rgba(255, 0, 255, 0.7);
+            }
+        }
+        
+        .member-info {
+            max-width: 600px;
+        }
+        
+        .member-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .member-title {
+            font-size: 1.2rem;
+            color: #00ffff;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .member-bio {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            max-width: 120%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-top: 0.1rem;
+        }
+        
+        .carousel-prev,
+        .carousel-next {
+            background: none;
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            color: #00ffff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .carousel-prev:hover,
+        .carousel-next:hover {
+            background: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        .carousel-dots {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(0, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background: #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+            transform: scale(1.2);
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .form-group {
+            margin-bottom: 2rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #00ffff;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #ff00ff;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        footer {
+            padding: 4rem 2rem;
+            background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 100%);
+            text-align: center;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-link {
+            color: #fff;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            color: #00ffff;
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .mouse-follower {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(0, 255, 255, 0.3);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: transform 0.1s ease, background 0.3s ease;
+            mix-blend-mode: lighten;
+        }
+        
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0,0,0,0.95);
+        transition: right 0.3s;
+    }
+
+    nav.active {
+        right: 0;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .section {
+        padding: 4rem 1rem;
+    }
+
+    .member-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    .portfolio-item {
+        aspect-ratio: 3/4;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 0.8rem 1.8rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .section-title::after {
+        width: 60px;
+    }
+
+    .member-image {
+        width: 150px;
+        height: 150px;
+    }
+
+    .contact-form {
+        padding: 1.5rem;
+    }
+}
+
+@media (hover: none) {
+    .portfolio-overlay {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 70%);
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="mouse-follower"></div>
+    <div id="canvas-container"></div>
+    
+    <header>
+        <div class="logo">SIMPLIFIED V</div>
+         <button class="mobile-menu-btn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="home" class="hero">
+        <h1>REDEFINE REALITY</h1>
+        <p>We create mind-bending digital experiences that transcend the ordinary. Our team combines cutting-edge technology with extreme design to push the boundaries of what's possible.</p>
+        <button class="btn">Explore Our Universe</button>
+    </section>
+    
+    <section id="services" class="section">
+        <h2 class="section-title">Our Services</h2>
+        <div class="services">
+            <div class="service-card">
+                <h3>3D Animation</h3>
+                <p>Breathtaking animated worlds created with precision and artistic vision. We bring your wildest ideas to life with industry-leading 3D technology.</p>
+                <button class="btn">Learn More</button>
+            </div>
+            <div class="service-card">
+                <h3>Extreme UX/UI</h3>
+                <p>Interfaces that challenge conventions while maintaining usability. We create digital experiences that leave lasting impressions on your audience.</p>
+                <button class="btn">Learn More</button>
+            </div>
+            <div class="service-card">
+                <h3>Web Development</h3>
+                <p>Building responsive, high-performance websites and applications using the latest web technologies to deliver seamless user experiences.</p>
+                <button class="btn">Learn More</button>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- TEAM -->
+    <section id="team" class="section">
+        <h2 class="section-title">Meet Our Team</h2>
+        
+        <div class="team-carousel-container">
+            <div class="team-carousel">
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="1.jpeg" alt="Team Member">
+                        <div class="member-glow"></div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Adithya Maurya</h3>
+                        <p class="member-title">3D Designer</p>
+                        <div class="tech-capabilities">
+                            <div class="capability-container">
+                                <div class="capability-area">
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">Blender</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 95%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">Filmora</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 90%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">JavaScript</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 85%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="capability-visual">
+                                    <div class="tech-icon designer">
+                                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                            <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" fill="none" stroke="#00ffff" stroke-width="2" />
+                                            <polygon points="50,20 80,35 80,65 50,80 20,65 20,35" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                            <circle cx="50" cy="50" r="10" fill="none" stroke="#00ffff" stroke-width="2" />
+                                            <line x1="40" y1="50" x2="60" y2="50" stroke="#ff00ff" stroke-width="2" />
+                                            <line x1="50" y1="40" x2="50" y2="60" stroke="#ff00ff" stroke-width="2" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="member-bio">Pioneer in spatial design with 12+ years crafting mind-bending experiences for global brands. Masters in Digital Arts from RISD.</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="4.jpeg" alt="Team Member">
+                        <div class="member-glow"></div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Aakash Singh</h3>
+                        <p class="member-title">Design Lead</p>
+                        <div class="tech-capabilities">
+                            <div class="capability-container">
+                                <div class="capability-area">
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">HTML/CSS</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 95%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">JavaScript</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 90%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">Bootstrap</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 85%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="capability-visual">
+                                    <div class="tech-icon frontend">
+                                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="10" y="10" width="80" height="60" rx="5" fill="none" stroke="#00ffff" stroke-width="2" />
+                                            <rect x="20" y="20" width="60" height="10" rx="2" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                            <rect x="20" y="35" width="30" height="25" rx="2" fill="none" stroke="#00ffff" stroke-width="2" />
+                                            <rect x="55" y="35" width="25" height="10" rx="2" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                            <rect x="55" y="50" width="25" height="10" rx="2" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                            <line x1="10" y1="80" x2="90" y2="80" stroke="#00ffff" stroke-width="2" />
+                                            <circle cx="50" cy="85" r="5" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="member-bio">Award-winning frontend developer specializing in immersive interfaces and responsive animations. Creates stunning web experiences with pixel-perfect precision.</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="2.jpeg" alt="Team Member">
+                        <div class="member-glow"></div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Rajath Shettighar</h3>
+                        <p class="member-title">UI/UX Architect</p>
+                        <div class="tech-capabilities">
+                            <div class="capability-container">
+                                <div class="capability-area">
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">Node.js</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 92%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">HTML/CSS</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 88%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">Vibe coding</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 90%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="capability-visual">
+                                    <div class="tech-icon backend">
+                                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="25" y="15" width="50" height="70" rx="5" fill="none" stroke="#00ffff" stroke-width="2" />
+                                            <circle cx="50" cy="30" r="8" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                            <rect x="35" y="45" width="30" height="5" rx="2" fill="none" stroke="#00ffff" stroke-width="2" />
+                                            <rect x="35" y="55" width="30" height="5" rx="2" fill="none" stroke="#00ffff" stroke-width="2" />
+                                            <rect x="35" y="65" width="30" height="5" rx="2" fill="none" stroke="#00ffff" stroke-width="2" />
+                                            <line x1="15" y1="25" x2="25" y2="35" stroke="#ff00ff" stroke-width="2" />
+                                            <line x1="15" y1="35" x2="25" y2="45" stroke="#ff00ff" stroke-width="2" />
+                                            <line x1="75" y1="35" x2="85" y2="45" stroke="#ff00ff" stroke-width="2" />
+                                            <line x1="75" y1="45" x2="85" y2="55" stroke="#ff00ff" stroke-width="2" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="member-bio">Architecture wizard who builds robust, scalable backend systems powering our most complex applications. Specializes in high-performance APIs and database optimization.</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="3.jpeg" alt="Team Member">
+                        <div class="member-glow"></div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Prince Shirathiya</h3>
+                        <p class="member-title">Full Stack Developer</p>
+                        <div class="tech-capabilities">
+                            <div class="capability-container">
+                                <div class="capability-area">
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">Flutter</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 90%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">Backend</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 85%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">Databases</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 80%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="capability-visual">
+                                    <div class="tech-icon fullstack">
+                                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="50" cy="50" r="40" fill="none" stroke="#00ffff" stroke-width="2" />
+                                            <path d="M30,40 L45,50 L30,60" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                            <path d="M70,40 L55,50 L70,60" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                            <line x1="40" y1="30" x2="60" y2="70" stroke="#00ffff" stroke-width="2" />
+                                            <circle cx="50" cy="20" r="5" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                            <circle cx="50" cy="80" r="5" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                            <circle cx="20" cy="50" r="5" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                            <circle cx="80" cy="50" r="5" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="member-bio">End-to-end development maestro who tackles complex projects from concept to deployment. Expert in bridging frontend aesthetics with backend functionality.</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="5.jpeg" alt="Team Member">
+                        <div class="member-glow"></div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Shivam Divakar</h3>
+                        <p class="member-title">Backend Specialist</p>
+                        <div class="tech-capabilities">
+                            <div class="capability-container">
+                                <div class="capability-area">
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">HTML/CSS</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 92%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">PHP</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 95%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="capability-bar-container">
+                                        <div class="capability-label">Core Java</div>
+                                        <div class="capability-bar">
+                                            <div class="capability-fill" style="width: 88%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="capability-visual">
+                                    <div class="tech-icon coder">
+                                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="10" y="20" width="80" height="60" rx="5" fill="none" stroke="#00ffff" stroke-width="2" />
+                                            <rect x="15" y="30" width="70" height="10" rx="2" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                            <rect x="15" y="45" width="50" height="5" rx="2" fill="none" stroke="#00ffff" stroke-width="2" />
+                                            <rect x="15" y="55" width="60" height="5" rx="2" fill="none" stroke="#00ffff" stroke-width="2" />
+                                            <rect x="15" y="65" width="40" height="5" rx="2" fill="none" stroke="#00ffff" stroke-width="2" />
+                                            <path d="M35,15 L40,15 L45,20 L40,25 L35,25 L30,20 Z" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                            <path d="M60,15 L65,15 L70,20 L65,25 L60,25 L55,20 Z" fill="none" stroke="#ff00ff" stroke-width="2" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="member-bio">Master of creative code who transforms algorithms into art. Specializes in generative design and creating mesmerizing real-time graphics experiences.</p>
+                       
+                    </div>
+                </div>
+            </div>
+            
+            <div class="carousel-nav">
+                <button class="carousel-prev">&#10094;</button>
+                <div class="carousel-dots">
+                    <span class="dot active" data-index="0"></span>
+                    <span class="dot" data-index="1"></span>
+                    <span class="dot" data-index="2"></span>
+                    <span class="dot" data-index="3"></span>
+                    <span class="dot" data-index="4"></span>
+                </div>
+                <button class="carousel-next">&#10095;</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Portfolio -->
+    <section id="portfolio" class="section">
+        <h2 class="section-title">Featured Work</h2>
+        <div class="portfolio">
+            <div class="portfolio-item">
+                <img src="/api/placeholder/400/320" alt="Portfolio item">
+                <div class="portfolio-overlay">
+                    <h4>Nebula Experience</h4>
+                    <p>Interactive 3D space exploration platform</p>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="/api/placeholder/400/320" alt="Portfolio item">
+                <div class="portfolio-overlay">
+                    <h4>Quantum Interface</h4>
+                    <p>Award-winning UI design for tech startup</p>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="/api/placeholder/400/320" alt="Portfolio item">
+                <div class="portfolio-overlay">
+                    <h4>Digital Organism</h4>
+                    <p>AI-driven interactive art installation</p>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <img src="/api/placeholder/400/320" alt="Portfolio item">
+                <div class="portfolio-overlay">
+                    <h4>Hyperdrive</h4>
+                    <p>Fast-paced 3D gaming experience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact -->
+    <section id="contact" class="section">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-form">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" class="form-control" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" class="form-control" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="message">Your Message</label>
+                <textarea id="message" class="form-control" placeholder="Tell us about your project"></textarea>
+            </div>
+            <button class="btn">Send Message</button>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="social-links">
+            <a href="#" class="social-link">Instagram</a>
+            <a href="#" class="social-link">Twitter</a>
+            <a href="#" class="social-link">LinkedIn</a>
+            <a href="#" class="social-link">YouTube</a>
+        </div>
+        <p class="copyright">© 2025 SIMPLIFIED V All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Mouse follower effect
+       const mouseFollower = document.querySelector('.mouse-follower');
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const nav = document.querySelector('nav');
+
+if (window.matchMedia('(hover: hover)').matches) {
+    document.addEventListener('mousemove', (e) => {
+        mouseFollower.style.left = e.clientX + 'px';
+        mouseFollower.style.top = e.clientY + 'px';
+    });
+
+    document.addEventListener('click', () => {
+        mouseFollower.style.transform = 'translate(-50%, -50%) scale(1.5)';
+        setTimeout(() => {
+            mouseFollower.style.transform = 'translate(-50%, -50%) scale(1)';
+        }, 300);
+    });
+}
+        
+
+        // // Mobile menu
+        mobileMenuBtn.addEventListener('click', () => {
+              nav.classList.toggle('active');
+             document.body.classList.toggle('menu-open');
+        });
+
+// Smooth scrolling
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            nav.classList.remove('active');
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+
+        // Three.js Background
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+        
+        // Create particles
+        const particles = new THREE.BufferGeometry();
+        const particleCount = 5000;
+        
+        const posArray = new Float32Array(particleCount * 3);
+        
+        for(let i = 0; i < particleCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 10;
+        }
+        
+        particles.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        
+        const particleMaterial = new THREE.PointsMaterial({
+            size: 0.01,
+            color: 0x00ffff,
+            transparent: true,
+            opacity: 0.8
+        });
+        
+        const particleSystem = new THREE.Points(particles, particleMaterial);
+        scene.add(particleSystem);
+        
+        camera.position.z = 2;
+        
+        // Add light
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(1, 1, 1);
+        scene.add(light);
+        
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            particleSystem.rotation.x += 0.0005;
+            particleSystem.rotation.y += 0.0005;
+            
+            renderer.render(scene, camera);
+        }
+        
+        animate();
+        
+// Handle window resize
+function handleResize() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    
+    renderer.setSize(width, height);
+}
+window.addEventListener('resize', handleResize);
+        
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.section-title, .service-card, .portfolio-item').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(50px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+        
+        // Team Carousel Functionality
+        const carousel = document.querySelector('.team-carousel');
+        const members = document.querySelectorAll('.team-member');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.querySelector('.carousel-prev');
+        const nextBtn = document.querySelector('.carousel-next');
+        let currentIndex = 0;
+        
+        // Initialize carousel
+        function initCarousel() {
+            members[currentIndex].classList.add('active');
+            updateCarousel();
+        }
+        
+        // Update carousel position and active states
+        function updateCarousel() {
+            // Update carousel position
+            carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+            
+            // Update active states
+            members.forEach((member, index) => {
+                if (index === currentIndex) {
+                    member.classList.add('active');
+                } else {
+                    member.classList.remove('active');
+                }
+            });
+            
+            // Update dots
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        
+        // Navigate to specific slide
+        function goToSlide(index) {
+            currentIndex = index;
+            updateCarousel();
+        }
+        
+        // Next slide
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % members.length;
+            updateCarousel();
+        }
+        
+        // Previous slide
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + members.length) % members.length;
+            updateCarousel();
+        }
+        
+        // Add event listeners
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+        
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => goToSlide(index));
+        });
+        
+        // Auto play carousel (optional)
+        const autoPlayInterval = 5000; // 5 seconds
+        let carouselInterval = setInterval(nextSlide, autoPlayInterval);
+        
+        // Pause auto play on hover
+        carousel.addEventListener('mouseenter', () => {
+            clearInterval(carouselInterval);
+        });
+        
+        carousel.addEventListener('mouseleave', () => {
+            carouselInterval = setInterval(nextSlide, autoPlayInterval);
+        });
+        
+        // Initialize the carousel
+        initCarousel();
+        
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+            }
+        });
+        
+        // Add touch support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        carousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                nextSlide(); // Swipe left
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                prevSlide(); // Swipe right
+            }
+        }
+
+        
+// Utility functions
+function isMobile() {
+    return window.innerWidth < 768;
+}
+
+// Form handling
+const contactForm = document.querySelector('.contact-form');
+
+contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(contactForm);
+    const data = Object.fromEntries(formData);
+    
+    // Here you would typically send the data to your backend
+    console.log('Form submitted:', data);
+    alert('Message sent successfully! We will get back to you soon.');
+    
+    contactForm.reset();
+});
+    </script>
+</body>
+</html>
