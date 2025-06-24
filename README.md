@@ -43,9 +43,10 @@ Whether you’re a startup founder, a freelancer-hiring agency, or someone looki
 - **Hosting:** Netlify
 
 ---
+<p align="center"> <img src="https://img.shields.io/badge/Made%20by-Indie%20Builders-blueviolet" alt="Indie"> </p> 
+
 
 ## 🛠️ Getting Started
-<p align="center"> <img src="https://img.shields.io/badge/Made%20by-Indie%20Builders-blueviolet" alt="Indie"> </p> 
 ```bash
 # Clone the repo
 git clone https://github.com/Adithyamaurya/Simplified.git
