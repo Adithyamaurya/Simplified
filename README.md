@@ -7,6 +7,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/build-stable-success" alt="Build Status">
   <img src="https://img.shields.io/github/license/Adithyamaurya/Simplified" alt="License">
+  <img src="https://img.shields.io/badge/Made%20by-Indie%20Builders-blueviolet" alt="Indie">
 </p>
 
 ---
@@ -35,9 +36,6 @@ Whether you’re a startup founder, a freelancer-hiring agency, or someone looki
 
 - **Frontend:** HTML, CSS, JavaScript
 - **Hosting:** Netlify
-
----
-<p align="center"> <img src="https://img.shields.io/badge/Made%20by-Indie%20Builders-blueviolet" alt="Indie"> </p> 
 
 
 ## 🛠️ Getting Started
