@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMPLIFIED - V</title>
+    <title>SIMPLIFIED - Digital Experiences</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         * {
@@ -658,12 +658,14 @@
         
         .modal-content {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8));
-            margin: 5% auto;
+            margin: 2% auto;
             padding: 0;
             border: 2px solid rgba(0, 255, 255, 0.3);
             border-radius: 20px;
-            width: 90%;
+            width: 95%;
             max-width: 600px;
+            max-height: 95vh;
+            overflow-y: auto;
             position: relative;
             animation: modalSlideIn 0.3s ease;
         }
@@ -708,7 +710,9 @@
         }
         
         .modal-body {
-            padding: 2rem;
+            padding: 1.5rem;
+            max-height: calc(95vh - 120px);
+            overflow-y: auto;
         }
         
         .project-form {
@@ -750,7 +754,8 @@
         
         .form-group textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 80px;
+            max-height: 120px;
         }
         
         .form-actions {
@@ -971,6 +976,31 @@
             .portfolio-item {
                 aspect-ratio: 3/4;
             }
+
+            .modal-content {
+                margin: 1% auto;
+                width: 98%;
+                max-height: 98vh;
+                overflow-y: auto;
+            }
+            
+            .modal-header {
+                padding: 1rem;
+            }
+            
+            .modal-body {
+                padding: 1rem;
+                max-height: calc(98vh - 100px);
+            }
+            
+            .form-group {
+                margin-bottom: 1rem;
+            }
+            
+            .form-group textarea {
+                min-height: 60px;
+                max-height: 100px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1087,10 +1117,59 @@
             }
             
             .modal-content {
-                margin: 5% auto;
-                width: 95%;
-                max-height: 90vh;
-                overflow-y: auto;
+                margin: 1% auto;
+                width: 98%;
+                max-width: 100%;
+                max-height: 98vh;
+                border-radius: 15px;
+            }
+            
+            .modal-header {
+                padding: 1rem;
+            }
+            
+            .modal-header h3 {
+                font-size: 1.2rem;
+            }
+            
+            .modal-body {
+                padding: 1rem;
+                max-height: calc(98vh - 80px);
+            }
+            
+            .form-group {
+                margin-bottom: 1rem;
+            }
+            
+            .form-group label {
+                font-size: 0.9rem;
+                margin-bottom: 0.3rem;
+            }
+            
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .form-group textarea {
+                min-height: 60px;
+                max-height: 80px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+                gap: 0.8rem;
+                margin-top: 1rem;
+            }
+            
+            .btn-secondary,
+            .btn-primary {
+                width: 100%;
+                text-align: center;
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
             }
 
             .contact-form {
@@ -1103,11 +1182,13 @@
             max-width: 1200px;
             margin: 0 auto;
             overflow: hidden;
+            min-height: 500px;
         }
         
         .team-carousel {
             display: flex;
             transition: transform 0.5s ease;
+            height: 100%;
         }
         
         .team-member {
@@ -1117,14 +1198,10 @@
             gap: 3rem;
             align-items: center;
             padding: 2rem;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.5s ease;
-        }
-        
-        .team-member.active {
             opacity: 1;
             transform: scale(1);
+            transition: all 0.5s ease;
+            box-sizing: border-box;
         }
         
         .member-left {
@@ -1141,7 +1218,6 @@
             margin-bottom: 2rem;
             border-radius: 50%;
             overflow: hidden;
-           margin-bottom: 0.5rem;
         }
         
         .member-image img {
@@ -1173,11 +1249,8 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin: 0;
-            padding: 0 1rem;
         }
         
-          
-
 
 @keyframes pulse {
     from { box-shadow: 0 0 20px var(--glow); }
@@ -1440,236 +1513,34 @@
         .contact-form {
             max-width: 600px;
             margin: 0 auto;
-           padding: 1.5rem;
-       }
-       
-       .pricing-card.featured {
-           transform: none;
-           margin-top: 0;
-       }
-       
-       .pricing-card.featured:hover {
-           transform: translateY(-5px);
-       }
-       
-       .popular-badge {
-           top: -8px;
-           right: 15px;
-           padding: 0.4rem 0.8rem;
-           font-size: 0.7rem;
-       }
-       
-       .package-price .amount {
-           font-size: 2.5rem;
-       }
-       
-       .pricing-features ul li {
-           padding: 0.6rem 0;
-           font-size: 0.95rem;
-       }
-       
-       .section-subtitle {
-           font-size: 1.1rem;
-           padding: 0 1rem;
-           margin-bottom: 2rem;
-       }
-       
-       .direct-contact-section {
-           padding: 2rem 1rem;
-           margin: 0 1rem;
-       }
-       
-       .contact-cta h3 {
-           font-size: 1.8rem;
-       }
-       
-       .contact-cta p {
-           font-size: 1rem;
-           margin-bottom: 1rem;
-           padding: 0 0.5rem;
+            padding: 2rem;
             background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(0, 255, 255, 0.2);
-            padding: 3rem;
             border-radius: 20px;
             backdrop-filter: blur(10px);
-           line-height: 1.5;
-           margin-bottom: 1.5rem;
         }
         
         .form-group {
-            margin-bottom: 2rem;
-           gap: 0.8rem;
+            margin-bottom: 1.5rem;
         }
         
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             color: #00ffff;
-        }
-       .capability-label {
-           width: 80px;
-           font-size: 0.75rem;
-           align-items: center;
             font-weight: 600;
         }
-           
         
         .form-control {
             width: 100%;
-           top: 50%;
-           transform: translateY(-50%);
-       }
-       
-       .carousel-prev {
-           left: 10px;
-       }
-       
-       .carousel-next {
-           right: 10px;
             padding: 1rem;
-           min-width: auto;
-           width: 100%;
-       }
-       .pricing-grid {
-           padding: 0 0.5rem;
-           gap: 1.5rem;
-       }
-       
-       .pricing-card {
-           padding: 1.2rem;
-           border-radius: 15px;
-       }
-       
-       .pricing-card.featured {
-           margin-top: 0;
-       }
-       
-       .popular-badge {
-           top: -6px;
-           right: 10px;
-           padding: 0.3rem 0.6rem;
-           font-size: 0.65rem;
-           border-radius: 15px;
-       }
-       
-       .package-icon {
-           width: 50px;
-           height: 50px;
-           margin-bottom: 0.8rem;
-       }
-       
-       .package-name {
-           font-size: 1.5rem;
-           margin-bottom: 0.8rem;
-       }
-       .package-name{
-         
-           font-size: 2.2rem;
-       }
-       
-       .package-price .currency {
-           font-size: 1.2rem;
-       }
-       
-       .package-price .period {
-           font-size: 0.9rem;
-       }
-       
-       .contact-info {
-           font-size: 0.85rem;
-           padding: 0.5rem 0;
-       }
-       
-       .pricing-btn {
-           padding: 0.8rem 1.5rem;
-           font-size: 1rem;
-           border-radius: 8px;
-       }
-       
-       .delivery-time {
-           font-size: 0.8rem;
-       }
-       
-       .section-subtitle {
-           font-size: 1rem;
-           margin-bottom: 1.5rem;
-           line-height: 1.4;
-       }
-       
-       .direct-contact-section {
-           padding: 1.5rem 0.8rem;
-           margin: 0 0.5rem;
-           border-radius: 15px;
-       }
-       
-       .contact-cta h3 {
-           font-size: 1.5rem;
-           margin-bottom: 0.8rem;
-       }
-       
-       .contact-cta p {
-           font-size: 0.9rem;
-           margin-bottom: 1.5rem;
-           line-height: 1.4;
-       }
-       
-       .contact-method {
-           padding: 0.8rem;
-           border-radius: 12px;
-           flex-direction: column;
-           text-align: center;
-           gap: 0.5rem;
-       }
-       
-       .contact-icon {
-           font-size: 1.5rem;
-       }
-       
-       .contact-info {
-           gap: 0.2rem;
-       }
-       
-       .contact-label {
-           font-size: 0.8rem;
-       }
-       
-       .contact-value {
-           font-size: 1rem;
-       }
-       
-       .modal-content {
-           margin: 2% auto;
-           width: 95%;
-           max-width: 500px;
-       }
-       
-       .modal-header {
-           padding: 1.5rem;
-       }
-       
-       .modal-header h3 {
-           font-size: 1.3rem;
-       }
-       
-       .modal-body {
-           padding: 1.5rem;
-       }
-       
-       .form-actions {
-           flex-direction: column;
-           gap: 1rem;
-       }
-       
-       .btn-secondary,
-       .btn-primary {
-           width: 100%;
-           text-align: center;
             background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(0, 255, 255, 0.3);
             border-radius: 10px;
             color: #fff;
             font-size: 1rem;
             transition: all 0.3s ease;
+            box-sizing: border-box;
         }
         
         .form-control:focus {
@@ -1725,13 +1596,125 @@
             mix-blend-mode: lighten;
         }
         
-
-@media (hover: none) {
-    .portfolio-overlay {
-        opacity: 1;
-        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 70%);
-    }
-}
+        /* Responsive Fixes */
+        @media (max-width: 1024px) {
+            .team-carousel-container {
+                min-height: 450px;
+            }
+            
+            .team-member {
+                grid-template-columns: 250px 1fr;
+                gap: 2rem;
+            }
+            
+            .member-image {
+                width: 200px;
+                height: 200px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .team-carousel-container {
+                min-height: auto;
+            }
+            
+            .team-member {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+                padding: 1.5rem;
+            }
+            
+            .member-left {
+                order: 1;
+            }
+            
+            .member-right {
+                order: 2;
+                gap: 1rem;
+            }
+            
+            .member-image {
+                width: 180px;
+                height: 180px;
+                margin-bottom: 1rem;
+            }
+            
+            .member-name {
+                font-size: 1.8rem;
+            }
+            
+            .capability-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .capability-visual {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .capability-label {
+                width: 100px;
+                font-size: 0.8rem;
+            }
+            
+            .contact-form {
+                padding: 1.5rem;
+                margin: 0 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .team-member {
+                padding: 1rem;
+                gap: 1.5rem;
+            }
+            
+            .member-image {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .member-name {
+                font-size: 1.5rem;
+            }
+            
+            .member-title {
+                font-size: 1rem;
+            }
+            
+            .member-bio {
+                font-size: 1rem;
+            }
+            
+            .capability-container {
+                padding: 0.8rem;
+            }
+            
+            .capability-visual {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .carousel-prev,
+            .carousel-next {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .contact-form {
+                padding: 1rem;
+                margin: 0 0.5rem;
+            }
+            
+            .form-control {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1749,8 +1732,9 @@
             <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#services">Services</a></li>
+                <!-- <li><a href="#team">Team</a></li> -->
                 <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#work-with-us">Work With Us</a></li>
+                <li><a href="#work-with-us">Pricing</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
@@ -1782,6 +1766,10 @@
             </div>
         </div>
     </section>
+    
+
+
+    
     <!-- Portfolio -->
     <section id="portfolio" class="section">
         <h2 class="section-title">Featured Work</h2>
@@ -1863,6 +1851,7 @@
             </div>
         </div>
     </section>
+
     <!-- Work With Us Section -->
     <section id="work-with-us" class="section">
         <div class="container">
@@ -2076,8 +2065,8 @@
             </div>
         </div>
     </div>
-
- <!-- TEAM -->
+    
+    <!-- TEAM -->
     <section id="team" class="section">
         <h2 class="section-title">Meet Our Team</h2>
         
@@ -2086,7 +2075,7 @@
                 <div class="team-member">
                     <div class="member-left">
                         <div class="member-image">
-                            <img src="1.jpeg" alt="Team Member">
+                            <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Team Member">
                             <div class="member-glow"></div>
                         </div>
                         <h3 class="member-name">Adithya Maurya</h3>
@@ -2135,7 +2124,7 @@
                 <div class="team-member">
                     <div class="member-left">
                         <div class="member-image">
-                            <img src="2.jpeg" alt="Team Member">
+                            <img src="https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Team Member">
                             <div class="member-glow"></div>
                         </div>
                         <h3 class="member-name">Aakash Singh</h3>
@@ -2186,7 +2175,7 @@
                 <div class="team-member">
                     <div class="member-left">
                         <div class="member-image">
-                            <img src="3.jpeg" alt="Team Member">
+                            <img src="https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Team Member">
                             <div class="member-glow"></div>
                         </div>
                         <h3 class="member-name">Rajath Shettighar</h3>
@@ -2239,7 +2228,7 @@
                 <div class="team-member">
                     <div class="member-left">
                         <div class="member-image">
-                            <img src="4.jpeg" alt="Team Member">
+                            <img src="https://images.pexels.com/photos/1845534/pexels-photo-1845534.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Team Member">
                             <div class="member-glow"></div>
                         </div>
                         <h3 class="member-name">Prince Shirathiya</h3>
@@ -2291,7 +2280,7 @@
                 <div class="team-member">
                     <div class="member-left">
                         <div class="member-image">
-                            <img src="5.jpeg" alt="Team Member">
+                            <img src="https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Team Member">
                             <div class="member-glow"></div>
                         </div>
                         <h3 class="member-name">Shivam Divakar</h3>
@@ -2353,9 +2342,7 @@
             </div>
         </div>
     </section>
-    
 
-    
     <!-- Contact -->
     <section id="contact" class="section">
         <h2 class="section-title">Get In Touch</h2>
@@ -2379,8 +2366,9 @@
     <footer>
         <div class="social-links">
             <a href="#" class="social-link">Instagram</a>
-            <a href="https://www.linkedin.com/in/adithya-maurya-17a00a370/" class="social-link">LinkedIn</a>
-            <a href="https://wa.me/7208248380?text=Hello%20Simplifiers%20V%2C%20I%20am%20interested%20in%20your%20services." class="social-link">Whatsapp</a>
+            <a href="#" class="social-link">Twitter</a>
+            <a href="#" class="social-link">LinkedIn</a>
+            <a href="#" class="social-link">YouTube</a>
         </div>
         <p class="copyright">© 2025 SIMPLIFIED V All rights reserved.</p>
     </footer>
@@ -2551,15 +2539,6 @@ window.addEventListener('resize', handleResize);
             // Update carousel position
             carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
             
-            // Update active states
-            members.forEach((member, index) => {
-                if (index === currentIndex) {
-                    member.classList.add('active');
-                } else {
-                    member.classList.remove('active');
-                }
-            });
-            
             // Update dots
             dots.forEach((dot, index) => {
                 if (index === currentIndex) {
@@ -2610,7 +2589,9 @@ window.addEventListener('resize', handleResize);
         });
         
         // Initialize the carousel
-        initCarousel();
+        if (carousel && members.length > 0) {
+            initCarousel();
+        }
         
         // Add keyboard navigation
         document.addEventListener('keydown', (e) => {
@@ -2657,6 +2638,26 @@ window.addEventListener('resize', handleResize);
             modalTitle.textContent = packageTitles[packageType] || 'Contact Us';
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
+            
+            // Ensure modal content is scrollable if needed
+            const modalContent = modal.querySelector('.modal-content');
+            const modalBody = modal.querySelector('.modal-body');
+            
+            // Reset scroll position
+            if (modalBody) {
+                modalBody.scrollTop = 0;
+            }
+            
+            // Add viewport height check
+            setTimeout(() => {
+                const modalHeight = modalContent.offsetHeight;
+                const viewportHeight = window.innerHeight;
+                
+                if (modalHeight > viewportHeight * 0.95) {
+                    modalContent.style.height = '95vh';
+                    modalBody.style.maxHeight = 'calc(95vh - 120px)';
+                }
+            }, 100);
         }
         
         function closeContactModal() {
