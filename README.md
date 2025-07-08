@@ -27,18 +27,13 @@ Whether you’re a startup founder, a freelancer-hiring agency, or someone looki
 - 💬 **Instant Contact & Collaboration Tools**
 - 📱 **Responsive Design** – Works beautifully on all devices
 
----
-
-## 🌐 Live Demo
-
 > 🔗 [Visit Website](https://simplifiedv.netlify.app/)  
-> *(or your actual deployed link)*
 
 ---
 
 ## 🧰 Tech Stack
 
-- **Frontend:** HTML, CSS, JavaScript / React / Next.js / Tailwind CSS
+- **Frontend:** HTML, CSS, JavaScript
 - **Hosting:** Netlify
 
 ---
